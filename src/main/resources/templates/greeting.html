@@ -1,16 +1,18 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+
     <head>
         <title>Getting Started: Serving Web Content</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     </head>
     <body>
-    `   <form action="/demo/ajax" method="Post" onclick="reloadTable()">
-            <input name="name" type="text" placeholder="Your Name">
-            <input name="email" type="text" placeholder="Your Email">
-            <input type="submit" name="Add user" >
+    <form>
+        <input id="name_input" name="name" placeholder="Your Name" type="text">
+        <input id="email_input" name="email" placeholder="Your Email" type="text">
+        <button id="submitData" type="button">Add Users</button>
         </form>
-    <table style="width:100%">
+    <table id="users_table" style="width:100%">
             <tr th:each="User:${userList}">
                 <td th:text="${User.getId()}"> Id </td>
                 <td th:text="${User.getName()}"> Name </td>
@@ -18,13 +20,14 @@
             </tr>
     </table>
     <input type="button"  onclick="location.href='/'" value="Back" >
-    <script>
-        function reloadTable()
-        {
-        	var xhttp=new XMLHttpRequest();
-            xhttp.open('GET','/demo/fun');
-            xhttp.save();
-        }
+    <script type="text/javascript">
+
+		$("#submitData").on("click", function()
+		{
+			$.post('update', {name: $('#name_input').val(), email: $('#email_input').val()})
+			$("#users_table").reload();
+		});
     </script>
     </body>
+
 </html>
