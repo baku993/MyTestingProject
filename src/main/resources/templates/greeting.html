@@ -12,21 +12,38 @@
         <input id="email_input" name="email" placeholder="Your Email" type="text">
         <button id="submitData" type="button">Add Users</button>
         </form>
-    <table id="users_table" style="width:100%">
-            <tr th:each="User:${userList}">
+    <div id="mytable">
+        <table id="users_table" style="width:100%">
+            <tr id="rows" th:each="User:${userList}">
                 <td th:text="${User.getId()}"> Id </td>
                 <td th:text="${User.getName()}"> Name </td>
                 <td th:text="${User.getEmail()}"> Email </td>
             </tr>
-    </table>
+        </table>
+    </div>
+
     <input type="button"  onclick="location.href='/'" value="Back" >
+    <input id="refreshTable" type="button" value="Update">
     <script type="text/javascript">
 
 		$("#submitData").on("click", function()
 		{
-			$.post('update', {name: $('#name_input').val(), email: $('#email_input').val()})
-			$("#users_table").reload();
+			$.ajax({
+				url: "postuser",
+				type: 'post',
+				dataType: 'json',
+				contentType: "application/json; charset=utf-8",
+				data: JSON.stringify({name: $('#name_input').val(), email: $('#email_input').val()})
+			});
+			$("#mytable").load("/fun #mytable")
 		});
+		$("#refreshTable").on("click", function()
+		{
+			$("#mytable").load("/fun #mytable")
+		});
+
+
+
     </script>
     </body>
 
